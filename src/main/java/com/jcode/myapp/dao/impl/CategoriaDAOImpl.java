@@ -17,7 +17,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 
@@ -44,6 +43,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
             pst = conn.prepareStatement("SELECT COUNT(IDCATEGORIA) AS COUNT FROM CATEGORIA WHERE "
                     + "NOMBRE LIKE CONCAT('%',?,'%')");
             pst.setString(1, String.valueOf(parameters.get("FILTER")));
+            LOG.info(pst.toString());
             rs = pst.executeQuery();
             while (rs.next()) {
                 beanPagination.setCOUNT_FILTER(rs.getInt("COUNT"));
@@ -51,6 +51,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
                     pst = conn.prepareStatement("SELECT * FROM CATEGORIA WHERE NOMBRE LIKE CONCAT('%',?,'%') "
                             + "ORDER BY " + String.valueOf(parameters.get("SQL_ORDER_BY")) + " " + String.valueOf(parameters.get("SQL_LIMIT")));
                     pst.setString(1, String.valueOf(parameters.get("FILTER")));
+                    LOG.info(pst.toString());
                     rs = pst.executeQuery();
                     while (rs.next()) {
                         Categoria categoria = new Categoria();
@@ -90,18 +91,20 @@ public class CategoriaDAOImpl implements CategoriaDAO {
             conn.setAutoCommit(false);
             pst = conn.prepareStatement("SELECT COUNT(IDCATEGORIA) AS COUNT FROM CATEGORIA WHERE NOMBRE = ?");
             pst.setString(1, obj.getNombre());
+            LOG.info(pst.toString());
             rs = pst.executeQuery();
             while (rs.next()) {
                 if (rs.getInt("COUNT") == 0) {
-                    //COMPLETAMOS EL REGISTRO
+                    //REALIZAMOS LA TRANSACCIÓN
                     pst = conn.prepareStatement("INSERT INTO CATEGORIA(NOMBRE) VALUES(?)");
                     pst.setString(1, obj.getNombre());
+                    LOG.info(pst.toString());
                     pst.executeUpdate();
                     conn.commit();
                     beanCrud.setMESSAGE_SERVER("ok");
                     beanCrud.setBEAN_PAGINATION(getPagination(parameters, conn));
                 } else {
-                    //DEVOLDEMOS UN MENSAJE
+                    //RECHAZAMOS EL REGISTRO
                     beanCrud.setMESSAGE_SERVER("No se registró, ya existe una Categoría con el nombre ingresado");
                 }
             }
@@ -124,19 +127,21 @@ public class CategoriaDAOImpl implements CategoriaDAO {
             pst = conn.prepareStatement("SELECT COUNT(IDCATEGORIA) AS COUNT FROM CATEGORIA WHERE NOMBRE = ? AND IDCATEGORIA != ?");
             pst.setString(1, obj.getNombre());
             pst.setInt(2, obj.getIdcategoria());
+            LOG.info(pst.toString());
             rs = pst.executeQuery();
             while (rs.next()) {
                 if (rs.getInt("COUNT") == 0) {
-                    //COMPLETAMOS EL REGISTRO
+                    //REALIZAMOS LA TRANSACCIÓN
                     pst = conn.prepareStatement("UPDATE CATEGORIA SET NOMBRE = ? WHERE IDCATEGORIA = ?");
                     pst.setString(1, obj.getNombre());
                     pst.setInt(2, obj.getIdcategoria());
+                    LOG.info(pst.toString());
                     pst.executeUpdate();
                     conn.commit();
                     beanCrud.setMESSAGE_SERVER("ok");
                     beanCrud.setBEAN_PAGINATION(getPagination(parameters, conn));
                 } else {
-                    //DEVOLDEMOS UN MENSAJE
+                    //RECHAZAMOS EL REGISTRO
                     beanCrud.setMESSAGE_SERVER("No se modificó, ya existe una Categoría con el nombre ingresado");
                 }
             }
@@ -154,8 +159,9 @@ public class CategoriaDAOImpl implements CategoriaDAO {
         try (Connection conn = this.pool.getConnection();
                 SQLCloseable finish = conn::rollback;) {
             conn.setAutoCommit(false);
-            try (PreparedStatement pst = conn.prepareStatement("DELETE CATEGORIA WHERE IDCATEGORIA = ?")) {
+            try (PreparedStatement pst = conn.prepareStatement("DELETE FROM CATEGORIA WHERE IDCATEGORIA = ?")) {
                 pst.setInt(1, id);
+                LOG.info(pst.toString());
                 pst.executeUpdate();
                 conn.commit();
                 beanCrud.setMESSAGE_SERVER("ok");
