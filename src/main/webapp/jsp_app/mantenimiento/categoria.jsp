@@ -51,22 +51,7 @@
                     <br>
                     <h6 class="text-center" style="color: aliceblue"><i class="fa fa-user"></i> <strong>JCode</strong></h6>
                 </div>
-                <div class="main-menu">
-                    <div class="menu-inner">
-                        <nav>
-                            <ul class="metismenu" id="menu">
-                                <li class="active"><a href="index.html"><i class="fa fa-home"></i> <span>Inicio</span></a></li>
-                                <li>
-                                    <a href="javascript:void(0)"><i class="fa fa-tag"></i><span>Mantenimientos</span></a>
-                                    <ul class="collapse">
-                                        <li><a href=""><i class="fa fa-cubes"></i> Categorias</a></li>
-                                        <li><a href=""><i class="fa fa-archive"></i> Productos</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+                <jsp:include page="../../menu.jsp" />
             </div>
             <!-- sidebar menu area end -->
             <!-- main content area start -->
@@ -155,11 +140,7 @@
             </div>
             <!-- main content area end -->
             <!-- footer area start-->
-            <footer>
-                <div class="footer-area">
-                    <p>© Copyright 2018 <a href="https://colorlib.com/wp/">JCode</a>.</p>
-                </div>
-            </footer>
+            <jsp:include page="../../footer.jsp" />
             <!-- footer area end-->
         </div>
         <!-- page container area end -->
