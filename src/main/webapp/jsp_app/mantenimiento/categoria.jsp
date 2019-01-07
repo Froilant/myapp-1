@@ -27,6 +27,8 @@
         <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/assets/css/default-css.css">
         <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/assets/css/styles.css">
         <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/assets/css/responsive.css">
+        <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/css_app/view/estilos.css">
+        <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/css_app/view/sweetalert.css">
         <!-- modernizr css -->
         <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
@@ -86,8 +88,10 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h6>CATEGORIAS</h6>
-
+                                    <h6 id="nameCrudCategoria">CATEGORIAS</h6>
+                                    <input type="hidden" id="nameFormCategoria" value="FrmCategoria">
+                                    <input type="hidden" id="actionCategoria" name="action" value="paginarCategoria">
+                                    <input type="hidden" id="numberPageCategoria" name="numberPageCategoria" value="1">
                                     <form id="FrmCategoria">
                                         <div class="row mt-3">
                                             <div class="form-group col-sm-9 col-12">
@@ -106,7 +110,7 @@
                                                     <thead class="bg-primary">
                                                         <tr class="text-white">
                                                             <th>NOMBRE</th>
-                                                            <th style="width: 15%">ACCIONES</th>
+                                                            <th style="width: 15%" colspan="2">ACCIONES</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tbodyCategoria">
@@ -118,7 +122,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 col-12">
-                                            <select id="sizePageCategoria" name="sizePageCategoria" class="form-control form-control-sm">
+                                            <select id="sizePageCategoria" name="sizePageCategoria" class="form-control form-control-sm combo-paginar" idBtnBuscar="btnBuscarCategoria">
                                                 <option value="10">10</option>
                                                 <option value="15">15</option>
                                                 <option value="20">20</option>
@@ -132,6 +136,47 @@
                                             </nav>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ventanaModalManCategoria" class="modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form id="FrmCategoriaModal">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="tituloModalManCategoria"></h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="txtNombreCategoriaER">NOMBRE</label>
+                                        <input type="text" id="txtNombreCategoriaER" name="txtNombreCategoriaER" class="form-control form-control-sm" placeholder="NOMBRE">
+                                        <div class="error-validation" id="validarNombreCategoriaER">Ingrese Categoria</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="txtIdCategoriaER" name="txtIdCategoriaER" value="">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary btn-xs" data-dismiss="modal">CERRAR</button>
+                                <button type="submit" class="btn btn-primary btn-xs">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="modalCargandoCategoria" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 18%; overflow-y: visible;">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="progress" style="margin-bottom: 0px;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    Cargando...
                                 </div>
                             </div>
                         </div>
@@ -171,6 +216,10 @@
         <!-- others plugins -->
         <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/plugins.js"></script>
         <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/scripts.js"></script>
+        <script src="<%out.print(getServletContext().getContextPath());%>/js_app/view/jquery.Pagination.min.js"></script>
+        <script src="<%out.print(getServletContext().getContextPath());%>/js_app/view/sweetalert.min.js"></script>
+        <script src="<%out.print(getServletContext().getContextPath());%>/js_app/app/utilities/lib-utilities.js"></script>
+        <script src="<%out.print(getServletContext().getContextPath());%>/js_app/app/categoria.js"></script>
     </body>
 
 </html>

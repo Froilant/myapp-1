@@ -13,5 +13,6 @@ import com.jcode.myapp.model.Categoria;
  */
 public interface CategoriaDAO extends CRUD<Categoria>{
     
+    /**/
     
 }
